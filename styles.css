@@ -46,9 +46,8 @@ h2 {
   border-radius: 10px;
   cursor: pointer;
   font-weight: 500;
-
 }
-.delete-habit{
+.delete-habit {
   position: absolute;
   top: -15px;
   left: -5px;
@@ -60,11 +59,8 @@ h2 {
   color: white;
   text-align: center;
   vertical-align: middle;
-
-
-
 }
-.delete-habit:hover{
+.delete-habit:hover {
   background-color: rgb(231, 0, 0);
 }
 .active {
@@ -75,7 +71,7 @@ h2 {
   flex-wrap: wrap;
   row-gap: 5px;
   column-gap: 5px;
-  width: 750px;
+  width: 850px;
   padding: 5px;
   margin: 0 auto;
 }
@@ -83,6 +79,7 @@ h2 {
 .day {
   width: 25px;
   height: 25px;
+  padding: 3px;
   border-radius: 50%;
   border: 1px solid gray;
   color: rgb(0, 0, 0);
@@ -92,10 +89,11 @@ h2 {
   background-color: green;
   color: white;
 }
-.uncompleted {
+.missed {
   background-color: red;
   color: white;
 }
+
 
 @media (max-width: 750px) {
   .days {
@@ -103,9 +101,5 @@ h2 {
   }
   .habitName {
     width: calc(100% - 50px);
-  }
-  .day {
-    width: 20px;
-    height: 20px;
   }
 }

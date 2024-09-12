@@ -14,18 +14,21 @@ function addNewHabit() {
     } else {
       habits.push({
         habitName: habitName.value,
-        days: new Array(200).fill(0),
+        days: new Array(100).fill(0).map((_, i) => ({
+          status: "uncomplete",
+          day: i + 1,
+        })),
       });
       //   Update Local Storage
       localStorage.setItem("habits", JSON.stringify(habits));
       // update Dom
       renderTabs();
-
+      daysContainer.innerHTML = "";
       habitName.value = "";
     }
   });
 }
-
+// render Habits in tabs
 function renderTabs() {
   tabs.innerHTML = "";
   habits.forEach(({ habitName, days }) => {
@@ -40,6 +43,7 @@ function renderTabs() {
     tabs.innerHTML += html;
   });
 }
+// activiate a habit tab
 function selectTab() {
   tabs.addEventListener("click", (e) => {
     if (e.target.classList.contains("tab")) {
@@ -48,10 +52,12 @@ function selectTab() {
       });
       e.target.classList.add("active");
       currentTab = e.target.getAttribute("data-id");
+      daysContainer.innerHTML = "";
       renderDays(currentTab);
     }
   });
 }
+// delete a habit
 function deleteTab() {
   tabs.addEventListener("click", (e) => {
     if (e.target.classList.contains("delete-habit")) {
@@ -61,7 +67,8 @@ function deleteTab() {
         habits.splice(
           habits.findIndex(
             (habit) => habit.habitName == e.target.getAttribute("data-id")
-          )
+          ),
+          1
         );
       //    update local storage
       localStorage.setItem("habits", JSON.stringify(habits));
@@ -71,22 +78,59 @@ function deleteTab() {
     }
   });
 }
-
+// render days of habit
 function renderDays(currentTab) {
   if (currentTab) {
-    daysContainer.innerHTML += "";
-    habits
-      .at(habits.findIndex((habit) => habit.habitName == currentTab))
-      .days.forEach((day) => {
-        let html = `
-      <span class="day flex">${day}</span>
+    daysContainer.innerHTML = "";
+
+    habits[
+      habits.findIndex((habit) => habit.habitName == currentTab)
+    ].days.forEach(({ day, status }) => {
+      let html = `
+      <span class="day ${status} flex">${day}</span>
       `;
-        daysContainer.innerHTML += html;
-      });
+      daysContainer.innerHTML += html;
+    });
   }
 }
+
+function updateStatus() {
+  daysContainer.addEventListener("click", (e) => {
+    if (e.target.classList.contains("day")) {
+      if (
+        habits.find((habit) => habit.habitName == currentTab).days[
+          `${e.target.textContent - 1}`
+        ].status == "uncomplete"
+      ) {
+        changeStatus("completed", e);
+      } else if (
+        habits.find((habit) => habit.habitName == currentTab).days[
+          `${e.target.textContent - 1}`
+        ].status == "completed"
+      ) {
+        changeStatus("missed", e);
+      } else if (
+        habits.find((habit) => habit.habitName == currentTab).days[
+          `${e.target.textContent - 1}`
+        ].status == "missed"
+      ) {
+        changeStatus("uncomplete", e);
+      }
+    }
+  });
+}
+
+function changeStatus(status, event) {
+  habits.find((habit) => habit.habitName == currentTab).days[
+    `${event.target.textContent - 1}`
+  ].status = status;
+  renderDays(currentTab);
+  localStorage.setItem("habits", JSON.stringify(habits));
+}
+
 addNewHabit();
 renderTabs();
 selectTab();
 renderDays(currentTab);
 deleteTab();
+updateStatus();
