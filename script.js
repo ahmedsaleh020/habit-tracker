@@ -46,17 +46,17 @@ function renderTabs() {
 // activiate a habit tab
 function selectTab() {
   tabs.addEventListener("click", (e) => {
-    if (e.target.classList.contains("tab")) {
-      document.querySelectorAll(".tab").forEach((tab) => {
-        tab.classList.remove("active");
-      });
-      e.target.classList.add("active");
-      currentTab = e.target.getAttribute("data-id");
-      daysContainer.innerHTML = "";
-      renderDays(currentTab);
-    }
+    const selected = e.target.closest(".tab");
+    document.querySelectorAll(".tab").forEach((tab) => {
+      tab.classList.remove("active");
+    });
+    selected.classList.add("active");
+    currentTab = selected.dataset.id;
+    daysContainer.innerHTML = "";
+    renderDays(currentTab);
   });
 }
+
 // delete a habit
 function deleteTab() {
   tabs.addEventListener("click", (e) => {
