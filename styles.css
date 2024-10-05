@@ -109,6 +109,17 @@ h3 {
     width: calc(100% - 50px);
   }
 }
+.counters{
+  display: none;
+  justify-content: center;
+  align-items: center;
+  column-gap: 10px;
+  font-weight: 700;
+  font-size: 16px;
+}
+.show{
+  display: flex;
+}
 footer {
   display: flex;
   justify-content: center;

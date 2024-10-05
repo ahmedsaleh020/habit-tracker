@@ -3,8 +3,10 @@ const habitName = document.querySelector(".habitName");
 const tabs = document.querySelector(".tabs");
 let daysContainer = document.querySelector(".days");
 let habits = JSON.parse(localStorage.getItem("habits")) || [];
+let countersContainer = document.querySelector(".counters");
+let completedCounter = document.querySelector(".completed-counter");
+let missedCounter = document.querySelector(".missed-counter");
 let currentTab;
-
 // Add New Habit
 function addNewHabit() {
   AddBtn.addEventListener("click", () => {
@@ -23,6 +25,7 @@ function addNewHabit() {
       localStorage.setItem("habits", JSON.stringify(habits));
       // update Dom
       renderTabs();
+      countersContainer.classList.remove("show");
       daysContainer.innerHTML = "";
       habitName.value = "";
     }
@@ -54,6 +57,7 @@ function selectTab() {
     currentTab = selected.dataset.id;
     daysContainer.innerHTML = "";
     renderDays(currentTab);
+    countersContainer.classList.add("show");
   });
 }
 
@@ -74,6 +78,8 @@ function deleteTab() {
       localStorage.setItem("habits", JSON.stringify(habits));
       // update dom
       renderTabs();
+      countersContainer.classList.remove("show");
+
       daysContainer.innerHTML = "";
     }
   });
@@ -91,6 +97,8 @@ function renderDays(currentTab) {
       `;
       daysContainer.innerHTML += html;
     });
+    countersContainer.classList.add("show");
+    updateCounters(currentTab);
   }
 }
 
@@ -126,6 +134,18 @@ function changeStatus(status, event) {
   ].status = status;
   renderDays(currentTab);
   localStorage.setItem("habits", JSON.stringify(habits));
+}
+
+// Update the counters of completed and missed days
+function updateCounters(currentTab) {
+  const habit = habits.find((habit) => habit.habitName == currentTab);
+  const completedDays = habit.days.filter(
+    (day) => day.status === "completed"
+  ).length;
+  const missedDays = habit.days.filter((day) => day.status === "missed").length;
+
+  completedCounter.textContent = `Completed: ${completedDays}`;
+  missedCounter.textContent = `Missed: ${missedDays}`;
 }
 
 addNewHabit();
