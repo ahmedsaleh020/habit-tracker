@@ -109,7 +109,7 @@ h3 {
     width: calc(100% - 50px);
   }
 }
-.counters{
+.counters {
   display: none;
   justify-content: center;
   align-items: center;
@@ -117,8 +117,18 @@ h3 {
   font-weight: 700;
   font-size: 16px;
 }
-.show{
+@media (max-width: 750px) {
+  .counters {
+    flex-direction: column;
+    column-gap: 0;
+    row-gap: 5px;
+  }
+}
+.show {
   display: flex;
+}
+.streak-counter {
+  color: #007bff;
 }
 footer {
   display: flex;
