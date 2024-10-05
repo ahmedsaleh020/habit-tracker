@@ -11,12 +11,16 @@ h1,
 h2 {
   text-align: center;
   padding: 10px;
+  color: #dc3545;
+}
+h3 {
+  color: #28a745;
 }
 .habitCreator {
   flex-direction: column;
   row-gap: 10px;
-  margin-top: 20px;
 }
+
 .habitName {
   padding: 10px;
   border-radius: 2px;
@@ -30,6 +34,7 @@ h2 {
   border: 0.5px grey solid;
   font-size: 30px;
   cursor: pointer;
+  background-color: #28a745;
 }
 .tabs {
   display: flex;
@@ -46,6 +51,7 @@ h2 {
   border-radius: 10px;
   cursor: pointer;
   font-weight: 500;
+  background-color: #8b828354;
 }
 .delete-habit {
   position: absolute;
@@ -55,51 +61,61 @@ h2 {
   height: 20px;
   border-radius: 50%;
   border: 0.5px red solid;
-  background-color: rgb(0, 0, 0);
+  background-color: #dc3545;
   color: white;
   text-align: center;
   vertical-align: middle;
 }
-.delete-habit:hover {
-  background-color: rgb(231, 0, 0);
-}
 .active {
-  background-color: green;
+  background-color: #28a745;
   color: white;
 }
 .days {
   flex-wrap: wrap;
-  row-gap: 5px;
-  column-gap: 5px;
+  row-gap: 3px;
+  column-gap: 3px;
   width: 850px;
   padding: 5px;
   margin: 0 auto;
 }
 
 .day {
-  width: 25px;
-  height: 25px;
+  width: 20px;
+  height: 20px;
   padding: 3px;
   border-radius: 50%;
   border: 1px solid gray;
   color: rgb(0, 0, 0);
   cursor: pointer;
+  font-size: 12px;
+}
+.day:hover {
+  background-color: #28a746b6;
 }
 .completed {
-  background-color: green;
+  background-color: #28a745;
   color: white;
 }
 .missed {
-  background-color: red;
+  background-color: #dc3545;
   color: white;
 }
 
-
 @media (max-width: 750px) {
   .days {
-    width: calc(100% - 20px);
+    width: calc(100% - 10px);
   }
   .habitName {
     width: calc(100% - 50px);
   }
+}
+footer {
+  display: flex;
+  justify-content: center;
+  font-size: 20px;
+  padding: 10px;
+}
+footer span {
+  color: #28a745;
+  margin-left: 2px;
 }
