@@ -6,6 +6,7 @@ let habits = JSON.parse(localStorage.getItem("habits")) || [];
 let countersContainer = document.querySelector(".counters");
 let completedCounter = document.querySelector(".completed-counter");
 let missedCounter = document.querySelector(".missed-counter");
+let streakCounter = document.querySelector(".streak-counter");
 let currentTab;
 // Add New Habit
 function addNewHabit() {
@@ -146,8 +147,28 @@ function updateCounters(currentTab) {
 
   completedCounter.textContent = `Completed: ${completedDays}`;
   missedCounter.textContent = `Missed: ${missedDays}`;
+  const longestStreak = calculateLongestStreak(habit.days);
+  streakCounter.textContent = `Longest Streak : ${longestStreak}`;
 }
 
+// Calculate the longest streak of  completed days
+function calculateLongestStreak(days) {
+  let longestStreak = 0;
+  let currentStreak = 0;
+
+  days.forEach((day) => {
+    if (day.status === "completed") {
+      currentStreak++;
+      if (currentStreak > longestStreak) {
+        longestStreak = currentStreak;
+      }
+    } else {
+      currentStreak = 0;
+    }
+  });
+
+  return longestStreak;
+}
 addNewHabit();
 renderTabs();
 selectTab();
