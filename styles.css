@@ -80,6 +80,7 @@ h3 {
   width: 850px;
   padding: 5px;
   margin: 0 auto;
+  min-height: 35vh;
 }
 
 .day {

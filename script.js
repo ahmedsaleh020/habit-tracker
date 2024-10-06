@@ -58,6 +58,7 @@ function selectTab() {
     currentTab = selected.dataset.id;
     daysContainer.innerHTML = "";
     renderDays(currentTab);
+    scrollToPos("bottom");
     countersContainer.classList.add("show");
     daysContainer.style.visibility = "visible";
   });
@@ -80,6 +81,7 @@ function deleteTab() {
       localStorage.setItem("habits", JSON.stringify(habits));
       // update dom
       renderTabs();
+      scrollToPos("top");
       countersContainer.classList.remove("show");
 
       daysContainer.innerHTML = "";
@@ -174,6 +176,7 @@ function closeOutSide() {
   daysContainer.style.visibility = "hidden";
   countersContainer.classList.remove("show");
   tabsToggle("remove");
+  scrollToPos("top");
 }
 document.addEventListener("click", function (e) {
   if (
@@ -192,6 +195,20 @@ function tabsToggle(method) {
   document.querySelectorAll(".tab").forEach((tab) => {
     tab.classList[`${method}`]("active");
   });
+}
+// scroll to bottom when select a tab and scroll to top when delete or closeOutSide
+function scrollToPos(pos) {
+  if (pos == "top") {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  } else {
+    window.scrollTo({
+      top: document.body.scrollHeight,
+      behavior: "smooth",
+    });
+  }
 }
 addNewHabit();
 renderTabs();
