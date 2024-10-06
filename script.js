@@ -7,7 +7,7 @@ let countersContainer = document.querySelector(".counters");
 let completedCounter = document.querySelector(".completed-counter");
 let missedCounter = document.querySelector(".missed-counter");
 let streakCounter = document.querySelector(".streak-counter");
-let currentTab;
+let currentTab, selected;
 // Add New Habit
 function addNewHabit() {
   AddBtn.addEventListener("click", () => {
@@ -50,15 +50,16 @@ function renderTabs() {
 // activiate a habit tab
 function selectTab() {
   tabs.addEventListener("click", (e) => {
-    const selected = e.target.closest(".tab");
-    document.querySelectorAll(".tab").forEach((tab) => {
-      tab.classList.remove("active");
-    });
+    if (e.target.classList.contains("tab")) {
+      selected = e.target;
+    }
+    tabsToggle("remove");
     selected.classList.add("active");
     currentTab = selected.dataset.id;
     daysContainer.innerHTML = "";
     renderDays(currentTab);
     countersContainer.classList.add("show");
+    daysContainer.style.visibility = "visible";
   });
 }
 
@@ -102,7 +103,7 @@ function renderDays(currentTab) {
     updateCounters(currentTab);
   }
 }
-
+// Handles status update on click
 function updateStatus() {
   daysContainer.addEventListener("click", (e) => {
     if (e.target.classList.contains("day")) {
@@ -128,7 +129,7 @@ function updateStatus() {
     }
   });
 }
-
+//Changes the status of a day
 function changeStatus(status, event) {
   habits.find((habit) => habit.habitName == currentTab).days[
     `${event.target.textContent - 1}`
@@ -153,17 +154,43 @@ function updateCounters(currentTab) {
 
 // Calculate the longest streak of  completed days
 function calculateLongestStreak(days) {
- return days.reduce((acc, curr) => {
-    if (curr.status == "completed") {
-      acc.currentStreak++;
-      if (acc.currentStreak > acc.longestStreak) {
-        acc.longestStreak = acc.currentStreak;
+  return days.reduce(
+    (acc, curr) => {
+      if (curr.status == "completed") {
+        acc.currentStreak++;
+        if (acc.currentStreak > acc.longestStreak) {
+          acc.longestStreak = acc.currentStreak;
+        }
+      } else {
+        acc.currentStreak = 0;
       }
-    } else {
-      acc.currentStreak = 0;
-    }
-    return acc
-  }, {currentStreak:0,longestStreak:0}).longestStreak;
+      return acc;
+    },
+    { currentStreak: 0, longestStreak: 0 }
+  ).longestStreak;
+}
+// hide daysContainer and De-activate selected tab when click outside
+function closeOutSide() {
+  daysContainer.style.visibility = "hidden";
+  countersContainer.classList.remove("show");
+  tabsToggle("remove");
+}
+document.addEventListener("click", function (e) {
+  if (
+    e.target == daysContainer ||
+    e.target == tabs ||
+    e.target.classList.contains("tab")
+  )
+    return;
+  else {
+    closeOutSide();
+  }
+});
+// show and hide tabs
+function tabsToggle(method) {
+  document.querySelectorAll(".tab").forEach((tab) => {
+    tab.classList[`${method}`]("active");
+  });
 }
 addNewHabit();
 renderTabs();
