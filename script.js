@@ -179,7 +179,8 @@ document.addEventListener("click", function (e) {
   if (
     e.target == daysContainer ||
     e.target == tabs ||
-    e.target.classList.contains("tab")
+    e.target.classList.contains("tab") ||
+    e.target.classList.contains("day")
   )
     return;
   else {
