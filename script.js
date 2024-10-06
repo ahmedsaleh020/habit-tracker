@@ -153,21 +153,17 @@ function updateCounters(currentTab) {
 
 // Calculate the longest streak of  completed days
 function calculateLongestStreak(days) {
-  let longestStreak = 0;
-  let currentStreak = 0;
-
-  days.forEach((day) => {
-    if (day.status === "completed") {
-      currentStreak++;
-      if (currentStreak > longestStreak) {
-        longestStreak = currentStreak;
+ return days.reduce((acc, curr) => {
+    if (curr.status == "completed") {
+      acc.currentStreak++;
+      if (acc.currentStreak > acc.longestStreak) {
+        acc.longestStreak = acc.currentStreak;
       }
     } else {
-      currentStreak = 0;
+      acc.currentStreak = 0;
     }
-  });
-
-  return longestStreak;
+    return acc
+  }, {currentStreak:0,longestStreak:0}).longestStreak;
 }
 addNewHabit();
 renderTabs();
