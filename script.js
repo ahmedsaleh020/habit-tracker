@@ -23,7 +23,7 @@ function addNewHabit() {
         })),
       });
       //   Update Local Storage
-      localStorage.setItem("habits", JSON.stringify(habits));
+      updateLocalStorage();
       // update Dom
       renderTabs();
       countersContainer.classList.remove("show");
@@ -53,7 +53,7 @@ function selectTab() {
     if (e.target.classList.contains("tab")) {
       selected = e.target;
     }
-    tabsToggle("remove");
+    tabsToggle();
     selected.classList.add("active");
     currentTab = selected.dataset.id;
     daysContainer.innerHTML = "";
@@ -78,7 +78,7 @@ function deleteTab() {
           1
         );
       //    update local storage
-      localStorage.setItem("habits", JSON.stringify(habits));
+      updateLocalStorage();
       // update dom
       renderTabs();
       scrollToPos("top");
@@ -137,7 +137,7 @@ function changeStatus(status, event) {
     `${event.target.textContent - 1}`
   ].status = status;
   renderDays(currentTab);
-  localStorage.setItem("habits", JSON.stringify(habits));
+  updateLocalStorage();
 }
 
 // Update the counters of completed and missed days
@@ -175,7 +175,7 @@ function calculateLongestStreak(days) {
 function closeOutSide() {
   daysContainer.style.visibility = "hidden";
   countersContainer.classList.remove("show");
-  tabsToggle("remove");
+  tabsToggle();
   scrollToPos("top");
 }
 document.addEventListener("click", function (e) {
@@ -191,7 +191,7 @@ document.addEventListener("click", function (e) {
   }
 });
 // show and hide tabs
-function tabsToggle(method) {
+function tabsToggle(method = "remove") {
   document.querySelectorAll(".tab").forEach((tab) => {
     tab.classList[`${method}`]("active");
   });
@@ -209,6 +209,9 @@ function scrollToPos(pos) {
       behavior: "smooth",
     });
   }
+}
+function updateLocalStorage() {
+  localStorage.setItem("habits", JSON.stringify(habits));
 }
 addNewHabit();
 renderTabs();
