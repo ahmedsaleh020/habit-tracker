@@ -23,7 +23,7 @@ function addNewHabit() {
         })),
       });
       //   Update Local Storage
-      updateLocalStorage();
+      updateLocalStorage("habits", habits);
       // update Dom
       renderTabs();
       countersContainer.classList.remove("show");
@@ -52,15 +52,17 @@ function selectTab() {
   tabs.addEventListener("click", (e) => {
     if (e.target.classList.contains("tab")) {
       selected = e.target;
+      tabsToggle();
+      selected.classList.add("active");
+      currentTab = selected.dataset.id;
+      daysContainer.innerHTML = "";
+      renderDays(currentTab);
+      scrollToPos("bottom");
+      countersContainer.classList.add("show");
+      daysContainer.style.visibility = "visible";
+    } else {
+      return;
     }
-    tabsToggle();
-    selected.classList.add("active");
-    currentTab = selected.dataset.id;
-    daysContainer.innerHTML = "";
-    renderDays(currentTab);
-    scrollToPos("bottom");
-    countersContainer.classList.add("show");
-    daysContainer.style.visibility = "visible";
   });
 }
 
@@ -78,7 +80,7 @@ function deleteTab() {
           1
         );
       //    update local storage
-      updateLocalStorage();
+      updateLocalStorage("habits", habits);
       // update dom
       renderTabs();
       scrollToPos("top");
@@ -137,7 +139,7 @@ function changeStatus(status, event) {
     `${event.target.textContent - 1}`
   ].status = status;
   renderDays(currentTab);
-  updateLocalStorage();
+  updateLocalStorage("habits", habits);
 }
 
 // Update the counters of completed and missed days
@@ -210,8 +212,8 @@ function scrollToPos(pos) {
     });
   }
 }
-function updateLocalStorage() {
-  localStorage.setItem("habits", JSON.stringify(habits));
+function updateLocalStorage(key, value) {
+  localStorage.setItem(`${key}`, JSON.stringify(value));
 }
 addNewHabit();
 renderTabs();

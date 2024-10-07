@@ -1,6 +1,7 @@
 * {
   padding: 0;
   margin: 0;
+  box-sizing: border-box;
 }
 a{
   text-decoration: none;
@@ -80,18 +81,17 @@ h3 {
   width: 850px;
   padding: 5px;
   margin: 0 auto;
-  min-height: 35vh;
 }
 
 .day {
   width: 20px;
   height: 20px;
-  padding: 3px;
+  padding: 12px;
   border-radius: 50%;
   border: 1px solid gray;
   color: rgb(0, 0, 0);
   cursor: pointer;
-  font-size: 12px;
+  font-size: 14px;
 }
 .day:hover {
   background-color: #28a746b6;
@@ -143,5 +143,5 @@ footer span {
 }
 footer span a{
   color: #28a745;
-font-weight: 800;
+  font-weight: 800;
 }
